@@ -1,0 +1,173 @@
+<h2 dir=rtl align=right style="line-height:200%;font-family:vazir;color:#0099cc">
+<font face="vazirmatn" color="#0099cc">
+K-Nearest Neighbor Algorithm
+</font>
+</h2>
+
+<p dir=rtl style="direction: rtl;text-align: justify;line-height:200%;font-family:vazir;font-size:medium">
+<font face="vazirmatn" size=3>
+Suppose you are given the characteristics of a lily flower and you are asked to identify its type. The first idea that probably comes to your mind is to measure its similarity to flowers whose types you know and predict its type based on this similarity. Suppose you have found the 3 flowers that are most similar to this flower. Now you know that out of these 3 flowers, for example, 2 are Virginia type and 1 is a rough tip. Surely you also agree that according to the majority vote, the probability that our flower is also Virginia type is higher. So we declare this type as our prediction.
+<br>
+This is exactly what the k-NN algorithm does. Of course, in this algorithm, instead of finding the greatest similarity, it usually calculates the least distance (difference). The steps of this algorithm are as follows:
+
+<ol dir=rtl>
+<li>First, we calculate the distance between the test sample (the sample whose type we want to predict) and all the training samples (the samples whose type we know).</li>
+<li>Then we find the <code>k</code> training samples that have the smallest distance from our test sample.</li>
+<li>Now we check which type these <code>k</code> samples belong to the most? We declare the same type as our prediction for the test sample.</li>
+</ol>
+</font>
+</p>
+
+<p dir=rtl style="direction: rtl;text-align: justify;line-height:200%;font-family:vazir;font-size:medium">
+<font face="vazirmatn" size=3>
+Now let's get started and implement each step of this algorithm using numpy.
+
+</font>
+</p>
+
+
+<h2 dir=rtl align=right style="line-height:200%;font-family:vazir;color:#0099cc">
+<font face="vazirmatn" color="#0099cc">
+Part 1: Calculating Distances
+</font>
+</h2>
+
+<p dir=rtl style="direction: rtl;text-align: justify;line-height:200%;font-family:vazir;font-size:medium">
+<font face="vazirmatn" size=3>
+First, we are going to write a function that calculates the distance between each sample/row of an array such as <code>new_points</code> and each sample/row of another array such as <code>points</code>. For example, in this exercise, if we have 120 training samples and 30 test samples, we need to calculate the distance between each test sample and each training sample, so our output will have dimensions of 30 x 120. For example, the first row of this matrix, shown in the figure on the right below, contains the distance between the first test sample and each training sample.
+</font>
+</p>
+
+<center>
+<div style="max-width: 1000px">
+<img src="img/fig.png">
+</div>
+</center>
+
+<p dir=rtl style="direction: rtl;text-align: justify;line-height:200%;font-family:vazir;font-size:medium">
+<font face="vazirmatn" size=3>
+To calculate the distance between two points <code>p</code> and <code>q</code> with <code>f</code> feature, we will use the following equation:
+</font>
+</p>
+
+$$ d(p,q) = {\sum_{i=0}^{f-1} (p_i - q_i)^2} $$
+
+<p dir=rtl style="direction: rtl;text-align: justify;line-height:200%;font-family:vazir;font-size:medium">
+<font face="vazirmatn" size=3>
+In our exercise, <code>f</code> is equal to <code>4</code>. That is, to calculate the distance between two samples, we simply subtract their sepal widths and raise them to the power of 2, then do the same for sepal length, petal width, and petal length, and add the results for all four features together.
+There are different methods for calculating the distance between the elements of two arrays, and we will test 3 different approaches.
+</font>
+</p>
+
+<h3 dir=rtl align=right style="line-height:200%;font-family:vazir;color:#0099cc">
+<font face="vazirmatn" color="#0099cc">
+Two-loop method
+</font>
+</h3>
+
+<p dir=rtl style="direction: rtl;text-align: justify;line-height:200%;font-family:vazir;font-size:medium">
+<font face="vazirmatn" size=3>
+First, we want to do this simply and with the help of two loops (<code>for</code>). That is, in this method, we write a loop on the test samples and inside it we write a loop on the training samples so that for each test sample, the distance value with each of the training samples is calculated.
+<br>
+In the function below, simply put an expression in front of the equal sign (instead of <code>None</code>) that calculates the distance between the two points <code>new_points[i]</code> and <code>points[j]</code> using the above formula.
+<br>
+<b style="color:green">Hint:</b>
+We suggest that you only use the square (<code>np.square</code>) and sum (<code>np.sum</code>) functions of NumPy in this section.
+</font>
+</p>
+
+<h3 dir=rtl align=right style="line-height:200%;font-family:vazir;color:#0099cc">
+<font face="vazirmatn" color="#0099cc">
+Single loop method
+</font>
+</h3>
+$$ d(p,q) = {\sum_{i=0}^{f-1} (p_i - q_i)^2} $$
+
+<p dir=rtl style="direction: rtl;text-align: justify;line-height:200%;font-family:vazir;font-size:medium">
+<font face="vazirmatn" size=3>
+In our exercise, <code>f</code> is equal to <code>4</code>. That is, to calculate the distance between two samples, we simply subtract their sepal widths and raise them to the power of 2, then do the same for sepal length, petal width, and petal length, and add the results for all four features together.
+There are different methods for calculating the distance between the elements of two arrays, and we will test 3 different approaches.
+</font>
+</p>
+
+<h3 dir=rtl align=right style="line-height:200%;font-family:vazir;color:#0099cc">
+<font face="vazirmatn" color="#0099cc">
+Two-loop method
+</font>
+</h3>
+
+<p dir=rtl style="direction: rtl;text-align: justify;line-height:200%;font-family:vazir;font-size:medium">
+<font face="vazirmatn" size=3>
+First, we want to do this simply and with the help of two loops (<code>for</code>). That is, in this method, we write a loop on the test samples and inside it we write a loop on the training samples so that for each test sample, the distance value with each of the training samples is calculated.
+<br>
+In the function below, simply put an expression in front of the equal sign (instead of <code>None</code>) that calculates the distance between the two points <code>new_points[i]</code> and <code>points[j]</code> using the above formula.
+<br>
+<b style="color:green">Hint:</b>
+We suggest that you only use the square (<code>np.square</code>) and sum (<code>np.sum</code>) functions of NumPy in this section.
+</font>
+</p>
+
+<h3 dir=rtl align=right style="line-height:200%;font-family:vazir;color:#0099cc">
+<font face="vazirmatn" color="#0099cc">
+Single loop method
+</font>
+</h3>
+
+<p dir=rtl style="direction: rtl;text-align: justify;line-height:200%;font-family:vazir;font-size:medium">
+<font face="vazirmatn" size=3>
+Calculating the distance array using the above three methods should not produce any difference in the result. Therefore, run the following code to ensure that the output of the above three functions is equal. From now on, we will use the array ‍<code>d</code> as the distance array.
+</font>
+</p>
+
+<h2 dir=rtl align=right style="line-height:200%;font-family:vazir;color:#0099cc">
+<font face="vazirmatn" color="#0099cc">
+Part 2: Finding <code>k</code> Nearest Neighbors
+</font>
+</h2>
+
+<p dir=rtl style="direction: rtl;text-align: justify;line-height:200%;font-family:vazir;font-size:medium">
+<font face="vazirmatn" size=3>
+With the help of the implemented functions, we were able to calculate the distance between each test sample and each training sample and stored the result in <code>d</code>.
+That is, we have stored the distance between the test sample <code>new_irises[i]</code> and the training sample <code>irises[j]</code> in the array <code>d[i][j]</code>. Now, for each test sample, we need to find the <code>k</code> training samples with the smallest distance to it. Note that we need to store the number of the closest samples, not the distance value itself. Here, consider <code>k</code> to be <code>10</code>, so the output array <code>k_nearest</code> will be a matrix with dimensions <code dir=ltr>(30, 10)</code>.
+</font>
+</p>
+
+<p dir=rtl style="direction: rtl;text-align: justify;line-height:200%;font-family:vazir;font-size:medium">
+<font face="vazirmatn" size=3>
+<b style="color:green">Hint:</b>
+To find the nearest neighbors (the shortest distances), use <code>np.argpartition</code>.
+The difference between <code>argpartition</code> and <code>partition</code> is like the difference between <code>argsort</code> and <code>sort</code>. That is, this function outputs the number (index) of the sorted elements, not their value.
+</font>
+</p>
+
+<h2 dir=rtl align=right style="line-height:200%;font-family:vazir;color:#0099cc">
+<font face="vazirmatn" color="#0099cc">
+Part 3: Finding the type of <code>k</code> nearest neighbors
+</font>
+</h2>
+
+<p dir=rtl style="direction: rtl;text-align: justify;line-height:200%;font-family:vazir;font-size:medium">
+<font face="vazirmatn" size=3>
+Now we have the indices of the nearest neighbors (training examples) for each test example in the <code>k_nearest</code> array. But we are looking for the type of each one. To replace each of the indices with the type of that flower, you can use the <code>types</code> array. Do this in one line and initialize the variable <code>k_nearest_types</code>.
+</font>
+</p>
+
+<h2 dir=rtl align=right style="line-height:200%;font-family:vazir;color:#0099cc">
+<font face="vazirmatn" color="#0099cc">
+Part 4: Determining the type of new flowers
+</font>
+</h2>
+
+<p dir=rtl style="direction: rtl;text-align: justify;line-height:200%;font-family:vazir;font-size:medium">
+<font face="vazirmatn" size=3>
+Finally, we need to create an array called <code>predicted_types</code> of length <code>m</code>, in which the most frequent identifier in <code>k_nearest_types[i]</code> is placed as the predicted type identifier for <code>new_irises[i]</code>.
+<br>
+Since NumPy does not have a direct mode function (<code>mode</code>), we have done this using the <code>mode</code> function that is included in the <code>scipy</code> library.
+</font>
+</p>
+
+<p dir=rtl style="direction: rtl;text-align: justify;line-height:200%;font-family:vazir;font-size:medium">
+<font face="vazirmatn" size=3>
+In this section, the <code>new_types</code> array is loaded, which contains the correct answers. From it, calculate the classification accuracy and store it in the <code>accuracy</code> variable. Classification accuracy is equal to the number of correct predictions divided by the number of test samples. If you have done the steps correctly, the accuracy should be equal to 1 (i.e., the type classifier correctly predicted all test flowers).
+</font>
+</p>
